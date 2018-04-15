@@ -1,4 +1,4 @@
 module.exports = {
   'collectCoverage': true,
-  'coverageReporters': ['text', 'html', 'lcov'],
-};
+  'coverageReporters': ['text', 'html', 'lcov']
+}

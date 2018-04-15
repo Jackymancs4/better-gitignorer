@@ -1,25 +1,25 @@
-const os = require('os');
-const path = require('path');
+const os = require('os')
+const path = require('path')
 const {
   readFileSync,
   writeFileSync,
   removeSync,
-  emptyDirSync,
-} = require('fs-extra');
+  emptyDirSync
+} = require('fs-extra')
 
 const {
   createGitignoreProfiles,
-  beforeEachCreateHomeAndCreateCwdAtNthLevelDeep_afterAllRemoveAll,
-} = require('../helpers');
+  beforeEachCreateHomeAndCreateCwdAtNthLevelDeep_afterAllRemoveAll
+} = require('../helpers')
 
-const initProfiles = require('../../lib/profiles/init');
+const initProfiles = require('../../lib/profiles/init')
 
 const specs = [
   {
     desc: 'should return Promise that resolves to an object with default: [] when given non-existing file',
     args: [],
     expectProfile: 'default',
-    toResolveTo: [],
+    toResolveTo: []
   },
 
   {
@@ -27,14 +27,14 @@ const specs = [
     gitignore_profiles: {
       default: [
         'coooool bean',
-        'some',
-      ],
+        'some'
+      ]
     },
     expectProfile: 'default',
     toResolveTo: [
       'coooool bean',
-      'some',
-    ],
+      'some'
+    ]
   },
 
   {
@@ -42,14 +42,14 @@ const specs = [
     gitignore_profiles: {
       default: [
         'coooool bean',
-        'some',
-      ],
+        'some'
+      ]
     },
     expectProfile: 'another',
     toResolveTo: [
       'coooool bean',
-      'some',
-    ],
+      'some'
+    ]
   },
 
   {
@@ -57,19 +57,19 @@ const specs = [
     gitignore_profiles: {
       default: [
         'coooool bean',
-        'some',
+        'some'
       ],
       happy: [
         'this',
         'is',
-        'cool',
-      ],
+        'cool'
+      ]
     },
     expectProfile: 'happy',
     toResolveTo: [
       'this',
       'is',
-      'cool',
+      'cool'
     ]
   },
 
@@ -78,13 +78,13 @@ const specs = [
     gitignore_profiles: {
       default: [
         'coooool bean',
-        'some',
+        'some'
       ],
       java: [
         'yoyoy',
         'url: https://raw.githubusercontent.com/github/gitignore/master/Java.gitignore',
-        'hello world',
-      ],
+        'hello world'
+      ]
     },
     expectProfile: 'java',
     toResolveTo: [
@@ -112,20 +112,20 @@ const specs = [
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 `,
-      'hello world',
-    ],
-  },
+      'hello world'
+    ]
+  }
 
-];
+]
 
 describe('initProfiles', () => {
-  beforeEach(jest.resetModules);
+  beforeEach(jest.resetModules)
   const {
     home,
-    cwd,
-  } = beforeEachCreateHomeAndCreateCwdAtNthLevelDeep_afterAllRemoveAll(24);
+    cwd
+  } = beforeEachCreateHomeAndCreateCwdAtNthLevelDeep_afterAllRemoveAll(24)
 
-  const gitignore_profiles_path = path.join(home, '.gitignore.profiles.js');
+  const gitignore_profiles_path = path.join(home, '.gitignore.profiles.js')
 
   specs.forEach(({
     desc,
@@ -136,13 +136,12 @@ describe('initProfiles', () => {
   }) => {
     test(desc, async () => {
       if (gitignore_profiles) {
-        createGitignoreProfiles(home, gitignore_profiles);
+        createGitignoreProfiles(home, gitignore_profiles)
       }
 
-      const profilesProxy = initProfiles(...args);
+      const profilesProxy = initProfiles(...args)
 
-      return expect(await profilesProxy[expectProfile]).toEqual(toResolveTo);
-    });
-  });
-
-});
+      return expect(await profilesProxy[expectProfile]).toEqual(toResolveTo)
+    })
+  })
+})
